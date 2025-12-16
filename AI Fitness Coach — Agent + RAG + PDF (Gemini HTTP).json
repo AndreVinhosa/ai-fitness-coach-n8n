@@ -3,23 +3,6 @@
   "nodes": [
     {
       "parameters": {
-        "rule": {
-          "interval": [
-            {}
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.3,
-      "position": [
-        688,
-        -384
-      ],
-      "id": "ba71cf56-bc19-4ebc-a7d3-b0829eadbb25",
-      "name": "Schedule Trigger"
-    },
-    {
-      "parameters": {
         "resource": "fileFolder",
         "filter": {
           "folderId": {
@@ -345,7 +328,9 @@
     },
     {
       "parameters": {
-        "options": {}
+        "options": {
+          "systemMessage": "Você é um treinador físico profissional, especialista em periodização de treinos.\n\nGere um plano de treino personalizado com 12 treinos, com base nos dados do usuário coletados via n8n:\n\nIdade (inteiro)\n\nPeso (kg, decimal)\n\nDias de treino por semana (2 a 6)\n\nObjetivo principal (hipertrofia, emagrecimento, força ou condicionamento)\n\nRegras:\n\nLinguagem clara, profissional e didática\n\nEstrutura organizada\n\nTreinos progressivos e seguros\n\nNão inventar dados\n\nRespeitar o objetivo informado\n\nEstrutura da saída:\n\nTítulo do plano\n\nDados do aluno\n\nEstrutura semanal\n\nDetalhamento dos 12 treinos (organizados por semana)\n\nObservações finais e recomendações\n\nFormatação:\n\nMarkdown estruturado (títulos, listas, tabelas quando necessário)\n\nSeparação clara por semanas e treinos\n\nSaída final em HTML semântico, pronta para conversão em PDF"
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
@@ -354,7 +339,8 @@
         -1648
       ],
       "id": "eeb5b348-4897-4d34-b162-7942dbbe4b0a",
-      "name": "AI Agent"
+      "name": "AI Agent",
+      "alwaysOutputData": false
     },
     {
       "parameters": {
@@ -370,6 +356,7 @@
       ],
       "id": "3269c658-c829-4741-96cd-541c645f232d",
       "name": "Google Gemini Chat Model",
+      "notesInFlow": false,
       "credentials": {
         "googlePalmApi": {
           "id": "mX6u3Z5pvu6Ml2TK",
@@ -378,26 +365,12 @@
       }
     },
     {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.4,
-      "position": [
-        1488,
-        -1648
-      ],
-      "id": "0e664820-ac36-4287-b41a-8e3f0e684e7b",
-      "name": "When chat message received",
-      "webhookId": "bef8a242-33f9-4b53-af0a-daaca38a9805"
-    },
-    {
       "parameters": {},
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        1856,
-        -1440
+        1904,
+        -1424
       ],
       "id": "8fb13464-b31e-41a7-a37e-b13ee2a45eba",
       "name": "Simple Memory"
@@ -431,49 +404,38 @@
     },
     {
       "parameters": {
-        "authentication": "oAuth2",
-        "resource": "file",
-        "owner": {
-          "__rl": true,
-          "mode": "list",
-          "value": ""
-        },
-        "repository": {
-          "__rl": true,
-          "mode": "list",
-          "value": ""
+        "rule": {
+          "interval": [
+            {}
+          ]
         }
       },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
       "position": [
-        0,
-        -141.4332833583208
+        688,
+        -384
       ],
-      "id": "021dbba7-1c05-4400-bb88-88022da69fe1",
-      "name": "Create a file",
-      "webhookId": "ba4c3548-ed69-48f8-8b2d-ce326465ee59",
-      "credentials": {
-        "githubOAuth2Api": {
-          "id": "b3rf2jL6GpoY3PK4",
-          "name": "GitHub account"
-        }
-      }
+      "id": "ba71cf56-bc19-4ebc-a7d3-b0829eadbb25",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        1600,
+        -1648
+      ],
+      "id": "16d89587-9d49-4aaa-8a6a-0a0dea42b2df",
+      "name": "When chat message received",
+      "webhookId": "39b8f83a-dd28-4d26-a7bf-2e0c3e0f6fcc"
     }
   ],
   "pinData": {},
   "connections": {
-    "Schedule Trigger": {
-      "main": [
-        [
-          {
-            "node": "Search files and folders",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Loop Over Items": {
       "main": [
         [
@@ -621,17 +583,6 @@
         ]
       ]
     },
-    "When chat message received": {
-      "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Simple Memory": {
       "ai_memory": [
         [
@@ -653,6 +604,28 @@
           }
         ]
       ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -662,7 +635,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "8f36c31f-6924-4f2a-a82c-670515ce6b62",
+  "versionId": "29f6a55c-ca34-4357-bc16-13bab0179386",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "bc3c8e59e48389770d360ce0c5fa06d4c3e176f31609d47c836fd813e12e2336"
